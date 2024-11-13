@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-vs)^9p8vdtbfv7fc7r@tho+6q73x#c@cadqr=cp4d7@0&-lzb!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+
 
 
 # Application definition
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'aulas',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
 ]
 
 REST_FRAMEWORK = {
@@ -49,13 +51,18 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',  
+
+         'rest_framework.authentication.TokenAuthentication', 
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',  # Permite acesso sem autenticação
     ],
 }
 
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # onde o frontend React está rodando
+]
 
 
 
@@ -64,11 +71,13 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  
+    'django.middleware.csrf.CsrfViewMiddleware',  
+    'django.contrib.auth.middleware.AuthenticationMiddleware',  
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'plataforma.urls'
 
@@ -89,6 +98,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'plataforma.wsgi.application'
+
+CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
 
 
 # Database
